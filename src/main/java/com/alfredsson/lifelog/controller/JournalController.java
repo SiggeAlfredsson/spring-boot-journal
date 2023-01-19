@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
+
 @Controller
 @RequestMapping("/journal/")
 public class JournalController {
@@ -19,9 +21,14 @@ public class JournalController {
         return "journalForm.jsp";
     }
 
-    @PostMapping
-    public String addEntry(HttpSession session, @RequestParam String title, @RequestParam String Content) {
+    @PostMapping("update")
+    public String addEntry(HttpSession session, @RequestParam String title, @RequestParam String content) {
 
-        return "redirect:/";
+        System.out.println(title);
+        System.out.println(content);
+        System.out.println(session.getAttribute("username"));
+        System.out.println(LocalDate.now());
+
+        return "redirect:/test";
     }
 }

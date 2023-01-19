@@ -17,8 +17,6 @@ public class AuthController {
     private JournalService journalService;
 
 
-
-
     @GetMapping("error/login")
     @ResponseBody
     public String errorLoginHandler(@RequestParam int attempts) {
@@ -43,7 +41,7 @@ public class AuthController {
         } else {
             int result = UserRepository.createNew(username, password); // sql injection??
             if (result == 1) {
-                return "redirect:/login.html";
+                return "redirect:/index.html";
             } else {
                 return "redirect:error/register";
             }
@@ -53,9 +51,10 @@ public class AuthController {
     @PostMapping("login")
     public String login(HttpSession session, @RequestParam String username, @RequestParam String password) {
 
+        System.out.println("potatis");
         if (session.getAttribute("username") != null) {
             System.out.println("already logged in");
-            return "redirect:/homePage.html";
+            return "redirect:/journal.html";
 
         } else
 
@@ -64,7 +63,7 @@ public class AuthController {
             session.setAttribute("username", username);
 
             System.out.println("Yayyy succes");
-            return "redirect:/homePage.html";
+            return "redirect:/journal.html";
         }  else {
 
                 Object loginAttempts = session.getAttribute("login-attempts");

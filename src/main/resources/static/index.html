@@ -6,9 +6,11 @@
 </head>
 <body>
 <h1>Welcome</h1>
-<form>
-    <input type="button" value="Login" onclick="window.location.href='/login.html'" />
-    <input type="button" value="Register" onclick="window.location.href='/register.html'" />
+<form   action="/login" method="get">
+    <button type="submit">Login</button>
+</form>
+<form   action="/register" method="get">
+    <button type="submit">Register</button>
 </form>
 </body>
 </html>
