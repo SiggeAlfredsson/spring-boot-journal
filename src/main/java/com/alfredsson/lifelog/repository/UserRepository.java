@@ -16,7 +16,6 @@ public class UserRepository {
         db = MysqlDatabase.getInstance();
     }
 
-
     public static boolean usernameExists(String username) {
         db = MysqlDatabase.getInstance();
         Connection conn = db.getConnection();
@@ -48,17 +47,18 @@ public class UserRepository {
         }
     }
 
-
     public static int createNew(String username, String password) {
         String hashedpassword = hashPassword(password);
         System.out.println(hashedpassword);
 
         db = MysqlDatabase.getInstance();
         Connection conn = db.getConnection();
+
         String sql = "INSERT INTO users (username,password) VALUES (?,?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)){
             stmt.setString(1, username);
             stmt.setString(2, hashedpassword);
+
             return stmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -84,6 +84,4 @@ public class UserRepository {
 
         return(password_verified);
     }
-
-
 }

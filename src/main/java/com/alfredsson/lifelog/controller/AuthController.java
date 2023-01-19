@@ -22,13 +22,12 @@ public class AuthController {
     public String errorLoginHandler(@RequestParam int attempts) {
         return "Invalid attempt {" + attempts + "}, <a href='/'>try again</a>";
     }
+
     @GetMapping("error/register")
     @ResponseBody
     public String errorRegisterHandler() {
         return "Username already in use or username/password are to short. Username needs atleast 3 characters and the password needs atleast 8, <a href='/'>try again</a>";
     }
-
-
 
     @PostMapping("register")
     public String register(HttpSession session, @RequestParam String username, @RequestParam String password) {
@@ -51,10 +50,9 @@ public class AuthController {
     @PostMapping("login")
     public String login(HttpSession session, @RequestParam String username, @RequestParam String password) {
 
-        System.out.println("potatis");
         if (session.getAttribute("username") != null) {
             System.out.println("already logged in");
-            return "redirect:/journal.html";
+            return "journal";
 
         } else
 
@@ -62,8 +60,7 @@ public class AuthController {
             session.setMaxInactiveInterval(60*30);
             session.setAttribute("username", username);
 
-            System.out.println("Yayyy succes");
-            return "redirect:/journal.html";
+            return "journal";
         }  else {
 
                 Object loginAttempts = session.getAttribute("login-attempts");
@@ -72,11 +69,10 @@ public class AuthController {
                 }
 
                 session.setAttribute("login-attempts", (int) loginAttempts + 1);
-                System.out.println(username);
+
                 return "redirect:error/login?attempts=" + ((int) loginAttempts + 1);
             }
         }
-
 
 
     @PostMapping("logout")

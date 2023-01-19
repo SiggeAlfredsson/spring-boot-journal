@@ -1,5 +1,7 @@
 package com.alfredsson.lifelog.controller;
 
+import com.alfredsson.lifelog.db.MysqlDatabase;
+import com.alfredsson.lifelog.repository.JournalRepository;
 import com.alfredsson.lifelog.service.JournalService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.sql.Connection;
 import java.time.LocalDate;
 
 @Controller
@@ -16,19 +19,27 @@ public class JournalController {
 
     private JournalService journalService;
 
-    @GetMapping
-    public String showContentPage() {
-        return "journalForm.jsp";
+    @GetMapping("create")
+    public String showAddNewPage() {
+        return "submitjournal";
     }
 
-    @PostMapping("update")
+    @PostMapping("add")
     public String addEntry(HttpSession session, @RequestParam String title, @RequestParam String content) {
+
+        if(session.getAttribute("username") ==null) {
+
+        }
+
+        String username = (String) session.getAttribute("username");
 
         System.out.println(title);
         System.out.println(content);
         System.out.println(session.getAttribute("username"));
         System.out.println(LocalDate.now());
 
-        return "redirect:/test";
+        JournalRepository.addContent(username, title, content);
+
+        return "journal";
     }
 }

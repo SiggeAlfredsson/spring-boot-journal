@@ -6,6 +6,7 @@ import com.alfredsson.lifelog.model.Page;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
+import java.time.LocalDate;
 
 public class JournalRepository {
     private static MysqlDatabase db;
@@ -50,32 +51,26 @@ public class JournalRepository {
         return list;
     }
 
-    public void addContent(String username, Page test) {
+    public static void addContent(String username, String title, String content) {
+        if(username==null){
+            return;
+        }
+
+        db = MysqlDatabase.getInstance();
         Connection conn = db.getConnection();
-        String sql = "SELECT id FROM users WHERE username=?";
 
-        try {
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+        int shareable = 0;
+
+        String sql = "INSERT INTO journals (owner_username, date, title, content, shareable)" +
+                "VALUES (?, ?, ?, ?, ?)";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)){
+
             pstmt.setString(1, username);
-
-            ResultSet rs = pstmt.executeQuery();
-            int user_id = 0;
-
-            if(user_id == 0) {
-                System.out.println("Summ wrong here");
-            }
-
-                user_id = rs.getInt("id");
-
-
-            sql = "INSERT INTO Journal (user_id, date, title, content)" +
-                    "VALUES (?, ?, ?, ?)";
-
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, user_id);
-            pstmt.setDate(2, (Date) test.getDate());
-            pstmt.setString(3, test.getTitle());
-            pstmt.setString(4,test.getContent());
+            pstmt.setDate(2, Date.valueOf(LocalDate.now()));
+            pstmt.setString(3, title);
+            pstmt.setString(4, content);
+            pstmt.setInt(5, shareable);
 
             pstmt.execute();
 
