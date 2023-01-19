@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 
 @Controller
+@SessionAttributes("username")
 @RequestMapping("/auth")
 public class AuthController {
 
@@ -26,17 +27,39 @@ public class AuthController {
     @GetMapping("error/register")
     @ResponseBody
     public String errorRegisterHandler() {
-        return "Username already in use or username/password are to short. Username needs atleast 3 characters and the password needs atleast 8, <a href='/'>try again</a>";
+        return "Something went wrong, <a href='/register'>try again</a>";
+    }
+
+    @GetMapping("error/register/0")
+    @ResponseBody
+    public String errorRegisterHandlerSpace() {
+        return "No spaces allowed in username or password, <a href='/register'>try again</a>";
+    }
+
+    @GetMapping("error/register/1")
+    @ResponseBody
+    public String errorRegisterHandlerToShort() {
+        return "Username or password to short, username needs min3 and password needs min8, <a href='/register'>try again</a>";
+    }
+
+    @GetMapping("error/register/2")
+    @ResponseBody
+    public String errorRegisterHandlerAlreadyExist() {
+        return "Username already in use, <a href='/register'>try again</a>";
     }
 
     @PostMapping("register")
     public String register(HttpSession session, @RequestParam String username, @RequestParam String password) {
+        if(username.contains(" ") || password.contains(" ") ) {
+            return "redirect:error/register/0";
+        }
+
         if(username.length()<3 || password.length() < 8 ) {
-            return "redirect:error/register";
+            return "redirect:error/register/1";
         }
 
         if(UserRepository.usernameExists(username)) {
-            return "redirect:error/register";
+            return "redirect:error/register/2";
         } else {
             int result = UserRepository.createNew(username, password); // sql injection??
             if (result == 1) {
@@ -73,7 +96,6 @@ public class AuthController {
                 return "redirect:error/login?attempts=" + ((int) loginAttempts + 1);
             }
         }
-
 
     @PostMapping("logout")
     public String logout(HttpSession session) throws IOException {

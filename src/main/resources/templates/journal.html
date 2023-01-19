@@ -5,7 +5,7 @@
   <link rel="stylesheet" type="text/css" href="/journalstyle.css">
 </head>
 <body>
-<h1>Welcome, add username?</h1>
+<h1>Welcome <span th:text="${session.username}"></span>!</h1>
 <form action="/journal/create">
   <button type="submit">Add today's content</button>
 </form>

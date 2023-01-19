@@ -5,15 +5,13 @@ import com.alfredsson.lifelog.repository.JournalRepository;
 import com.alfredsson.lifelog.service.JournalService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Connection;
 import java.time.LocalDate;
 
 @Controller
+@SessionAttributes("username")
 @RequestMapping("/journal/")
 public class JournalController {
 
