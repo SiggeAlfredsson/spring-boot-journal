@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class PageController {
     private JournalService journalService;
 
     @GetMapping("{date}")
-    public String showDateContent(Model model, HttpSession session, @PathVariable String date) {
+    public String showDateContent(Model model, HttpSession session, @RequestParam(value = "date") String date) {
         System.out.println(date);
         String username = (String) session.getAttribute("username");
         List<Journal> journals = JournalRepository.getContent(username, date);

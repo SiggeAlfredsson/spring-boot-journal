@@ -1,0 +1,18 @@
+
+<html lang="en">
+<head>
+    <title>View your journals!</title>
+  <link rel="stylesheet" type="text/css" href="/selectdatestyle.css">
+</head>
+<body>
+<form th:action="@{/journal/page/{date}}" method="get">
+  <h2>Register form</h2>
+  <div>
+    <label>Select the date to view your journals from</label>
+    <input type="date" id="datepicker" name="date">
+  </div>
+
+  <button type="submit">View journals</button>
+</form>
+</body>
+</html>

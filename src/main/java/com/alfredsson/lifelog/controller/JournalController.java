@@ -26,6 +26,10 @@ public class JournalController {
         return "submitjournal";
     }
 
+    @GetMapping("veiw")
+    public String showViewSelector() {
+        return "selectdate";
+    }
 
     @PostMapping("add")
     public String addEntry(HttpSession session, @RequestParam String title, @RequestParam String content) {
