@@ -1,5 +1,12 @@
+<html>
+<head>
+  <title>Journal List</title>
+  <link rel="stylesheet" type="text/css" href="/readjournalstyle.css">
+</head>
+<body>
 <div th:if="${journals.isEmpty()}">No journals for this date</div>
 <table th:if="${!journals.isEmpty()}">
+  <h1>Journals from <span th:text="${date}"></span></h1>
   <tr>
     <th>Title</th>
     <th>Content</th>
@@ -9,3 +16,5 @@
     <td th:text="${journal.content}"></td>
   </tr>
 </table>
+</body>
+</html>
