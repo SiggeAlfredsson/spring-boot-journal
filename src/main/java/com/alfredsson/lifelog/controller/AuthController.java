@@ -98,9 +98,11 @@ public class AuthController {
         }
 
     @PostMapping("logout")
-    public String logout(HttpSession session) throws IOException {
-        System.out.println(JournalService.getJournal("sigge"));
-        session.invalidate(); //Invalidate - empty the session
+    public String logout(HttpSession session) {
+        session.invalidate(); // används ej nu, fråga jakob varför ej funka
+      /*  if(session.getAttribute("username") != null){
+            session.invalidate();
+        } */
         return "redirect:/index.html";
     }
 }
