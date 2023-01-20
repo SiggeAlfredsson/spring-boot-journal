@@ -1,0 +1,11 @@
+<div th:if="${journals.isEmpty()}">No journals for this date</div>
+<table th:if="${!journals.isEmpty()}">
+  <tr>
+    <th>Title</th>
+    <th>Content</th>
+  </tr>
+  <tr th:each="journal : ${journals}">
+    <td th:text="${journal.title}"></td>
+    <td th:text="${journal.content}"></td>
+  </tr>
+</table>

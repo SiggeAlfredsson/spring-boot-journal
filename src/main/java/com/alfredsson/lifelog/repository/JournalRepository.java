@@ -2,11 +2,11 @@ package com.alfredsson.lifelog.repository;
 
 import com.alfredsson.lifelog.db.MysqlDatabase;
 import com.alfredsson.lifelog.model.Journal;
-import com.alfredsson.lifelog.model.Page;
-import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JournalRepository {
     private static MysqlDatabase db;
@@ -15,40 +15,26 @@ public class JournalRepository {
         db = MysqlDatabase.getInstance();
     }
 
-    public Journal getPages(String username) {
+    public static List<Journal> getContent(String username, String date) {
+        db = MysqlDatabase.getInstance();
         Connection conn = db.getConnection();
-        Journal list = new Journal(username);
-        String sql = "" +
-                "SELECT * FROM journals " +
-                "JOIN users " +
-                "ON journal.user_id=users.id " +
-                "WHERE users.username = ?";
 
-        try {
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, username);
-
-            ResultSet rs = pstmt.executeQuery();
-
-            if(!rs.next()) { return null; } //guardian clause
-
-            System.out.println(username);
-            do {
-                Page test = new Page();
-                test.setId(rs.getInt("user_id"));
-                test.setDate(rs.getDate("date"));
-                test.setTitle(rs.getString("title"));
-                test.setContent(rs.getString("content"));
-
-                list.getPages().add(test);
-            } while(rs.next());
-
-
+        String sql = "SELECT title, content FROM journals WHERE owner_username = ? AND date = ? ";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            stmt.setString(2, date);
+            ResultSet rs = stmt.executeQuery();
+            List<Journal> journals = new ArrayList<>();
+            while (rs.next()) {
+                Journal journal = new Journal();
+                journal.setTitle(rs.getString("title"));
+                journal.setContent(rs.getString("content"));
+                journals.add(journal);
+            }
+            return journals;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-        return list;
     }
 
     public static void addContent(String username, String title, String content) {

@@ -99,6 +99,7 @@ public class AuthController {
 
     @PostMapping("logout")
     public String logout(HttpSession session) throws IOException {
+        System.out.println(JournalService.getJournal("sigge"));
         session.invalidate(); //Invalidate - empty the session
         return "redirect:/index.html";
     }

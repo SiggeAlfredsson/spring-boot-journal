@@ -1,11 +1,11 @@
 body {
-    background-color: #f1f1f1;
+    background-color: #ffffff;
     text-align: center;
     font-family: Arial, sans-serif;
 }
 
 h1 {
-    color: #4CAF50;
+    color: #000000;
 }
 
 form {
@@ -14,7 +14,7 @@ form {
 }
 
 button {
-    background-color: #4CAF50;
+    background-color: #4b71bb;
     color: white;
     padding: 12px 20px;
     border: none;
@@ -22,5 +22,5 @@ button {
 }
 
 button:hover {
-    background-color: #3e8e41;
+    background-color: #012364;
 }

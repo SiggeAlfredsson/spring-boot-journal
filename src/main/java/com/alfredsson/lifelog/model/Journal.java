@@ -5,20 +5,22 @@ import java.util.Date;
 import java.util.List;
 
 public class Journal {
+    private String title;
+    private String content;
 
-    private List<Page> pages;
-    private String owner;
-
-    public Journal(String owner) {
-        this.owner = owner;
-        this.pages = new ArrayList<>();
+    public String getTitle() {
+        return title;
     }
 
-    public String getOwner() {
-        return owner;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public List<Page> getPages() {
-        return pages;
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }
